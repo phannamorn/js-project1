@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <button type="button" class="btn btn-info" id="cart-display">x3</button>
+    <div class="row">
+        <div class="col-md-4">
+         <div class="card">
+            <div class="card-body">
+              <img src="https://demo.opencart.com/image/cache/catalog/demo/imac_1-47x47.jpg" class="img-thumbnail">
+            </div> 
+            <div class="card-footer">
+              <button type="button" class="btn btn-success" id="add-imac">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+         <div class="card">
+            <div class="card-body">
+              <img src="https://demo.opencart.com/image/cache/catalog/demo/iphone_1-47x47.jpg" class="img-thumbnail">
+            </div> 
+            <div class="card-footer">
+              <button type="button" class="btn btn-success" id="add-iphone">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-4">
+         <div class="card">
+            <div class="card-body">
+              <img src="https://demo.opencart.com/image/cache/catalog/demo/macbook_1-47x47.jpg" class="img-thumbnail">
+            </div> 
+            <div class="card-footer">
+              <button type="button" class="btn btn-success" id="add-macbook">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>QTY</th>
+            <th>Price</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="imac">
+            <td><img src="https://demo.opencart.com/image/cache/catalog/demo/imac_1-47x47.jpg" alt="iMac" title="iMac" class="img-thumbnail"></td>
+            <td>x1</td>
+            <td>122.00</td>
+            <td>122.00</td>
+            <td><button type="button" class="btn btn-danger" id="remove-macbook" onclick="remove('imac')">Remove</button></td>
+          </tr>
+          <tr id="iphone">
+            <td><img src="https://demo.opencart.com/image/cache/catalog/demo/iphone_1-47x47.jpg" alt="iPhone" title="iPhone" class="img-thumbnail"></td>
+            <td>x1</td>
+            <td>400.00</td>
+            <td>400.00</td>
+            <td><button type="button" class="btn btn-danger" id="remove-macbook" onclick="remove('iphone')">Remove</button></td>
+          </tr>
+          <tr id="macbook">
+            <td><img src="https://demo.opencart.com/image/cache/catalog/demo/macbook_1-47x47.jpg" alt="MacBook" title="MacBook" class="img-thumbnail"></td>
+            <td>x1</td>
+            <td>600.00</td>
+            <td>600.00</td>
+            <td><button type="button" class="btn btn-danger" id="remove-macbook" onclick="remove('macbook')">Remove</button></td>
+          </tr>
+        </tbody>
+      </table>    
+</div>
+<script>
+    function getEleById(id) {
+        // Found and return HTML Element
+        const foundElem = document.getElementById(id);
+        if (foundElem) {
+            return foundElem;
+        } else {
+            alert("HTMLElement not found");
+        }
+    }
+
+    function addToCart(productId, price, orderQTY) {
+        const productElem = getEleById(productId),
+            columns = productElem.getElementsByTagName('td'),
+            strQTY = columns[1].innerHTML;
+        var qty = strQTY.replace('x', '');
+
+        qty = parseInt(qty);
+        columns[1].innerHTML = 'x' + (qty + 1);
+
+        // Update amount
+        columns[3].innerHTML = (price * qty).toFixed(2);
+
+        const cartDiplayElem = getEleById('cart-display'),
+            strQtyInCart = cartDiplayElem.innerHTML;
+
+        var qtyInCart = strQtyInCart.replace('x', '');
+        qtyInCart = parseInt(qtyInCart);
+
+        cartDiplayElem.innerHTML = 'x' + (qtyInCart + 1);
+
+    }
+
+    function remove(productId) {
+        const isOK = confirm("Are you to remove ?");
+        if (isOK) {
+            getEleById(productId).remove();
+        } else {
+            alert("Continue your shopping");
+        }
+    }
+
+    getEleById('add-imac').addEventListener('click', function() {
+        addToCart('imac', 122, 1);
+    });
+
+    getEleById('add-iphone').addEventListener('click', function() {
+        addToCart('iphone', 400, 1);
+    });
+
+    getEleById('add-macbook').addEventListener('click', function() {
+        addToCart('macbook', 600, 1);
+    });
+</script>
+</body>
+</html>
+
