@@ -9,6 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css" />
 <style>
   .form-control{
     border-radius: 0px;
@@ -28,7 +29,8 @@
 <div class="container">
     <button type="button" class="btn btn-info" id="cart-display">x3</button>
     <div class="row" id="product-list">
-        <div class="col-md-4">
+      <img src="loading.gif" class="center" />
+        <!-- <div class="col-md-4">
          <div class="card">
             <div class="card-body">
               <img src="https://demo.opencart.com/image/cache/catalog/demo/imac_1-47x47.jpg" class="img-thumbnail">
@@ -58,7 +60,7 @@
               <button type="button" class="btn btn-success" id="add-macbook">Add to Cart</button>
             </div>
           </div>
-        </div>
+        </div> -->
     </div>
     <table class="table">
         <thead>
@@ -114,116 +116,113 @@
       </table>    
 </div>
 <script>
-    function getEleById(id) {
-        // Found and return HTML Element
-        const foundElem = document.getElementById(id);
-        if (foundElem) {
-            return foundElem;
-        } else {
-            alert("HTMLElement not found");
-        }
-    }
+  function getEleById(id) {
+      // Found and return HTML Element
+      const foundElem = document.getElementById(id);
+      if (foundElem) {
+          return foundElem;
+      } else {
+          alert("HTMLElement not found");
+      }
+  }
 
-    function addToCart(productId, price, orderQTY) {
-        const productElem = getEleById(productId),
-            columns = productElem.getElementsByTagName('td'),
-            strQTY = columns[1].innerHTML;
-        var qty = strQTY.replace('x', '');
+  function addToCart(productId, price, orderQTY) {
+      const productElem = getEleById(productId),
+          columns = productElem.getElementsByTagName('td'),
+          strQTY = columns[1].innerHTML;
+      var qty = strQTY.replace('x', '');
 
-        qty = parseInt(qty);
-        columns[1].innerHTML = 'x' + (qty + 1);
+      qty = parseInt(qty);
+      columns[1].innerHTML = 'x' + (qty + 1);
 
-        // Update amount
-        columns[3].innerHTML = (price * qty).toFixed(2);
+      // Update amount
+      columns[3].innerHTML = (price * qty).toFixed(2);
 
-        const cartDiplayElem = getEleById('cart-display'),
-            strQtyInCart = cartDiplayElem.innerHTML;
+      const cartDiplayElem = getEleById('cart-display'),
+          strQtyInCart = cartDiplayElem.innerHTML;
 
-        var qtyInCart = strQtyInCart.replace('x', '');
-        qtyInCart = parseInt(qtyInCart);
+      var qtyInCart = strQtyInCart.replace('x', '');
+      qtyInCart = parseInt(qtyInCart);
 
-        cartDiplayElem.innerHTML = 'x' + (qtyInCart + 1);
+      cartDiplayElem.innerHTML = 'x' + (qtyInCart + 1);
 
-    }
+  }
 
-    function remove(productId) {
-        const isOK = confirm("Are you to remove ?");
-        if (isOK) {
-            getEleById(productId).remove();
-        } else {
-            alert("Continue your shopping");
-        }
-    }
+  function remove(productId) {
+      const isOK = confirm("Are you to remove ?");
+      if (isOK) {
+          getEleById(productId).remove();
+      } else {
+          alert("Continue your shopping");
+      }
+  }
 
 
-    function increaseQTY(productId, orderQty) {
-        const rowElement = document.getElementById(productId),
-          inputElement = rowElement.getElementsByTagName('input');
-        let oldQTY = 0;
-        if (inputElement[0].value) {
-          oldQTY = parseInt(inputElement[0].value);
-        }
-
-        let finalQty = oldQTY + orderQty;
-        if (finalQty <= 20){
-          inputElement[0].value = finalQty;
-        } else {
-          alert('Can Not Buy Gretter Than 20 !');
-        }
-        
-    }
-
-    function decreaseQTY(productId) {
+  function increaseQTY(productId, orderQty) {
       const rowElement = document.getElementById(productId),
-          inputElement = rowElement.getElementsByTagName('input');
-      
+        inputElement = rowElement.getElementsByTagName('input');
       let oldQTY = 0;
       if (inputElement[0].value) {
         oldQTY = parseInt(inputElement[0].value);
       }
 
-      const remainQTY = oldQTY - 1;
-      if (remainQTY >= 0) {
-        inputElement[0].value = remainQTY;
+      let finalQty = oldQTY + orderQty;
+      if (finalQty <= 20){
+        inputElement[0].value = finalQty;
+      } else {
+        alert('Can Not Buy Gretter Than 20 !');
       }
+      
+  }
+
+  function decreaseQTY(productId) {
+    const rowElement = document.getElementById(productId),
+        inputElement = rowElement.getElementsByTagName('input');
+    
+    let oldQTY = 0;
+    if (inputElement[0].value) {
+      oldQTY = parseInt(inputElement[0].value);
     }
 
-    getEleById('add-imac').addEventListener('click', function() {
-        addToCart('imac', 122, 1);
-    });
+    const remainQTY = oldQTY - 1;
+    if (remainQTY >= 0) {
+      inputElement[0].value = remainQTY;
+    }
+  }
 
-    getEleById('add-iphone').addEventListener('click', function() {
-        addToCart('iphone', 400, 1);
-    });
-
-    getEleById('add-macbook').addEventListener('click', function() {
-        addToCart('macbook', 600, 1);
-    });
-
-
-
-
-  // $(document).ready(function(){
-  //   $.ajax({
-  //     url: "https://fakestoreapi.com/products",
-  //     success: function(products) {
-  //       let htmlCard = '';
-  //       products.forEach(function(product) {
-  //             htmlCard += '<div class="col-md-4">';
-  //             htmlCard += '<div class="card">';
-  //             htmlCard += ' <div class="card-body">';
-  //             htmlCard += '   <img src="'+product['image']+'" class="img-thumbnail">';
-  //             htmlCard += ' </div>';
-  //             htmlCard += ' <div class="card-footer">';
-  //             htmlCard += '   <button type="button" class="btn btn-success" id="add-imac">Add to Cart</button>';
-  //             htmlCard += ' </div>';
-  //             htmlCard += ' </div>';
-  //             htmlCard += '</div>';
-  //       });
-  //       document.getElementById('product-list').innerHTML = htmlCard;
-  //     }
-  //   });
+  // getEleById('add-imac').addEventListener('click', function() {
+  //     addToCart('imac', 122, 1);
   // });
+
+  // getEleById('add-iphone').addEventListener('click', function() {
+  //     addToCart('iphone', 400, 1);
+  // });
+
+  // getEleById('add-macbook').addEventListener('click', function() {
+  //     addToCart('macbook', 600, 1);
+  // });
+
+  $(document).ready(function(){
+    $.ajax({
+      url: "https://fakestoreapi.com/products",
+      success: function(products) {
+        let htmlCard = '';
+        products.forEach(function(product) {
+              htmlCard += '<div class="col-md-4">';
+              htmlCard += '<div class="card">';
+              htmlCard += ' <div class="card-body text-center">';
+              htmlCard += '   <img src="'+product['image']+'" class="img-thumbnail">';
+              htmlCard += ' </div>';
+              htmlCard += ' <div class="card-footer">';
+              htmlCard += '   <button type="button" class="btn btn-success" id="add-imac">Add to Cart</button>';
+              htmlCard += ' </div>';
+              htmlCard += ' </div>';
+              htmlCard += '</div>';
+        });
+        document.getElementById('product-list').innerHTML = htmlCard;
+      }
+    });
+  });
 </script>
 </body>
 </html>
